@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mongo="http://www.springframework.org/schema/data/mongo"
+	xsi:schemaLocation="http://www.springframework.org/schema/context
+          http://www.springframework.org/schema/context/spring-context-3.0.xsd
+          http://www.springframework.org/schema/data/mongo
+          http://www.springframework.org/schema/data/mongo/spring-mongo-1.0.xsd
+          http://www.springframework.org/schema/beans
+          http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<!-- <context:annotation-config/> -->
+
+	<bean id="hellobasic" class="com.wipro.training.spring.BasicHello"
+		init-method="init" destroy-method="destroy">
+		<property name="message" value="Basics of Spring for You!" />
+	</bean>
+	<bean id="hellobasic3" class="com.wipro.training.spring.BasicHello">
+		<property name="message" value="Basics of Spring for You!" />
+	</bean>
+	<bean id="otherbasic" class="com.wipro.training.spring.OtherHello">
+		<property name="message" value="Other Basics!" />
+	</bean>
+
+	<bean id="e" class="com.wipro.training.spring.Employee" scope="prototype">
+		<property name="id" value="123" />
+		<property name="ename" value="Pawan" />
+		<property name="address" ref="a" />
+	</bean>
+	<bean id="a" class="com.wipro.training.spring.Address" scope="singleton">
+		<property name="hno" value="123" />
+		<property name="street" value="VictoriaStreet" />
+		<property name="citi" value="Noida" />
+	</bean>
+
+	<bean id="ec" class="com.wipro.training.spring.Employee" scope="prototype">
+		<constructor-arg ref="a" />
+		<constructor-arg index="0" value="123" />
+		<constructor-arg index="1" value="Pawan" />
+
+	</bean>
+	<bean id="ac" class="com.wipro.training.spring.Address" scope="singleton">
+		<constructor-arg index="0" value="123" />
+		<constructor-arg index="1" value="VictoriaStreet" />
+		<constructor-arg index="2" value="Noida" />
+	</bean>
+
+	<bean id="ob" class="com.wipro.training.spring.OuterBean">
+		<property name="innerBean">
+			<bean id="ib" class="com.wipro.training.spring.InnerBean" />
+		</property>
+	</bean>
+
+
+	<!-- Definition for javaCollection -->
+	<bean id="javaCollection" class="com.wipro.training.spring.JavaCollection">
+
+		<!-- results in a setAddressList(java.util.List) call -->
+		<property name="addressList">
+			<list>
+				<value>INDIA</value>
+				<value>Pakistan</value>
+				<value>USA</value>
+				<value>USA</value>
+			</list>
+		</property>
+
+		<!-- results in a setAddressSet(java.util.Set) call -->
+		<property name="addressSet">
+			<set>
+				<value>INDIA</value>
+				<value>Pakistan</value>
+				<value>USA</value>
+				<value>USA</value>
+			</set>
+		</property>
+
+		<!-- results in a setAddressMap(java.util.Map) call -->
+		<property name="addressMap">
+			<map>
+				<entry key="1" value="INDIA" />
+				<entry key="2" value="Pakistan" />
+				<entry key="3" value="USA" />
+				<entry key="4" value="USA" />
+			</map>
+		</property>
+
+		<!-- results in a setAddressProp(java.util.Properties) call -->
+		<property name="addressProp">
+			<props>
+				<prop key="one">INDIA</prop>
+				<prop key="two">Pakistan</prop>
+				<prop key="three">USA</prop>
+				<prop key="four">USA</prop>
+			</props>
+		</property>
+
+	</bean>
+
+	<!-- <bean id="customer" class="com.wipro.training.spring.Customer"> <property 
+		name="person" ref="person" /> </bean> <bean id="person" class="com.wipro.training.spring.Person" 
+		/> -->
+
+	<bean id="customer" class="com.wipro.training.spring.Customer"
+		autowire="byName" />
+
+	<bean id="person" class="com.wipro.training.spring.Person" />
+
+	<!-- <constructor-arg index="0" value="2001"/> -->
+
+	<!-- <init-method="init"/> -->
+	<!-- <destroy-method="destroy"/> -->
+	
+	<mongo:mongo host="127.0.0.1" port="27017" />
+	<mongo:db-factory dbname="TestMongoDB" />
+
+
+	<bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
+		<constructor-arg name="mongoDbFactory" ref="mongoDbFactory" />
+	</bean>
+
+	<!-- added -->
+	<bean id="helloBean" class="com.spring.training.core.hw.HelloWorld">
+		<property name="name" value="SUMANTA LAHA" />
+	</bean>
+
+</beans>
